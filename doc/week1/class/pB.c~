@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int countLine(char *file){
+  FILE *fo = fopen(file,"r");
+  if(fo==NULL){
+    return 0;
+  }
+  int count=0;
+  char c;
+  while((c=fgetc(fo))!=EOF){
+    if(c=='\n') count++;
+  }
+  fclose(fo);
+  return count;
+}
+
+typedef struct phone{
+  char name[30];
+  char num[15];
+}phone;
+
+void readFile(char *file,phone pb[],int n){
+  FILE *fr = fopen(file,"r");
+  if(fr==NULL){
+    printf("cannot open file\n");
+    return;
+  }
+
+  for(int i=0;i<n;i++){
+    fscanf(fr,"%s\t%s",pb[i].name,pb[i].num);
+  }
+  fclose(fr);
+  return;
+}
+
+void exch(phone pb[],int l,int r){
+  phone temp;
+  temp = pb[l];
+  pb[l] = pb[r];
+  pb[r] = temp;
+  return;
+}
+
+void qsort3w(phone pb[],int l,int r){
+  if(r<=l) return;
+  int i=l-1, j=r;
+  int p=l-1, q=r;
+
+  while(1){
+    while(strcmp(pb[++i].name,pb[r].name)<0);
+    while(strcmp(pb[r].name,pb[--j].name)<0){
+      if(j<=l) break;
+    }
+
+    if(i>=j) break;
+    exch(pb,i,j);
+    if(strcmp(pb[i].name,pb[r].name)==0) exch(pb,++p,i);
+    if(strcmp(pb[j].name,pb[r].name)==0) exch(pb,--q,j);
+  }
+  exch(pb,i,r);
+  j=i-1;
+  i=i+1;
+  for(int k=1;k<=p;k++) exch(pb,k,j--);
+  for(int k=r-1;k>=q;k--) exch(pb,k,i++);
+  qsort3w(pb,l,j);
+  qsort3w(pb,i,r);
+}
+
+int main(){
+  int n = countLine("phoneBook");
+  phone *pb = (phone*)malloc(100*sizeof(phone));
+  readFile("phoneBook",pb,n);
+  qsort3w(pb,0,n-1);
+  printf("%-30s%-15s\n","Name","Phone");
+  for(int i=0;i<n;i++){
+    printf("%-30s%-15s\n",pb[i].name,pb[i].num);
+  }
+  return 0;
+}

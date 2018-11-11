@@ -1,0 +1,14 @@
+#ifndef GRAPH_LIB
+#define GRAPH_LIB
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Graph{
+  int *matrix;
+  int sizemax;
+  int *visited;
+}Graph;
+
+Graph creatGraph(int )

@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "genericSymTab.h"
+
+int countLines(char *file){
+  FILE *fo = fopen(file,"r");
+  if(fo==NULL){
+    printf("cannot open file\n");
+    return 0;
+  }
+  int count = 0;
+  char c;
+  while((c=fgetc(fo))!=EOF){
+    if(c=='\n') count++;
+  }
+  return count;
+}
+
+void getDataFromTextFile(char *file,symbolTable *st,int n){
+  FILE *fo = fopen(file,"r");
+  if(fo==NULL){
+    printf("cannot open file\return");
+    return;
+  }
+
+  for(int i=0;i<n;i++){
+    Entry *e = (Entry*)malloc(sizeof(Entry));
+    char *str = (char*)malloc(50*sizeof(char));
+    int *a = (int*)malloc(sizeof(int));
+    fscanf(fo,"%s%d",str,a);
+    e = makeNode(str,a);
+    memcpy((*st).entries+i,e,sizeof(Entry));
+    free(e);
+  }
+  return;
+}
+
+int main(){
+  int n = countLines("phoneBook");
+  symbolTable *st = creatSymbolTable();
+  getDataFromTextFile("phoneBook",st,n);
+  printf("%-20s%-10s\n","Name","Number");
+  for(int i=0;i<n;i++){
+    printf("%-20s%-10d\n",(char*)(st->entries[i].key),*((int*)(st->entries[i].value)));
+  }
+  dropSymbolTable(st);
+  return 0;
+}

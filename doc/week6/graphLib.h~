@@ -1,0 +1,16 @@
+typedef struct{
+  int *matrix;
+  int sizemax;
+}Graph;
+
+Graph creatGraph(int max){
+  Graph g = (Graph)malloc(sizeof(Graph));
+  g.matrix = NULL;
+  g.sizemax = max;
+  return g;
+}
+
+int adjacent(Graph graph,int v1, int v2){
+  
+}
+

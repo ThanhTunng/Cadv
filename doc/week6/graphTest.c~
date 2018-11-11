@@ -1,0 +1,22 @@
+#include "graph.h"
+
+int main(){
+  printf("Enter the max value: ");
+  scanf("%d",&max);
+  Graph g = creatGraph();
+  print("Enter the number of edges you want to add: \n");
+  int numEdge;
+  scanf("%d",&numEdge);
+  for(int i=0;i<numEdge;i++){
+    printf("Add edge number %d: ",i+1);
+    int num1,num2;
+    scanf("%d %d",&num1,&num2);
+    addEdge(g,num1,num2);
+  }
+  int *ouput = (int*)malloc(max*sizeof(int));
+  getAdjacentVertices(v1,0,output);
+  for(int i=0;i<(sizeof(output)/sizeof(output[0]));i++){
+    printf("(0 - %d)\n",output[i]);
+  }
+  return;
+}
