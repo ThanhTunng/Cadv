@@ -26,7 +26,7 @@ int indegree(Graph graph,int v,int *output);//find the vertices have edges point
 
 int outdegree(Graph graph,int v,int *output);//find the vertices that v points to
 
-void DAG(Graph graph);// check if graph is DAG(directed graph without directed cycles)
+int DAG(Graph graph);// check if graph is DAG(directed graph without directed cycles)
 
 void list_graph(Graph graph, int *output); //list adjacent of all vertices in graph
 
@@ -36,4 +36,5 @@ void drop_graph(Graph graph);
 void BFS(Graph grap, int start,int stop,void(*func)(Graph,int));
 void DFS(Graph grap, int start,int stop,void(*func)(Graph,int));
 
+void shortest_path(Graph graph,int start,int stop, void(*func)(Graph,int)); 
 #endif

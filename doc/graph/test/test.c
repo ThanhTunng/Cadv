@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "../libfdr/dllist.h"
+#include "../libfdr/dllist.h"
 #include "graph.h"
+
+void print_vertex(Graph g,int id){
+  JRB node = jrb_find_int(g.vertices,id);
+  printf("%5d",jval_i(node->key));
+
+}
 
 int countLines(char* file){
   FILE *fr = fopen(file,"r");
@@ -81,6 +87,7 @@ int main(){
     printf("3.Tim lien thong\n");
     printf("4.In ra cac nut lien thong lon nhat\n");
     printf("5.In ra cac nut dao\n");
+    printf("6.Shortes path\n");
     printf("8.Exit");
     printf("\nEnter your choice: ");
     scanf("%d",&choice);
@@ -155,6 +162,27 @@ int main(){
 	printf("%5d",jval_i(temp->val));
       }
       printf("\n");
+      break;
+    }
+    case 6:{
+      printf("Input the starting point and ending point: ");
+      int id1,id2;
+      scanf("%d %d",&id1,&id2);
+      
+      shortest_path(g,id1,id2,print_vertex);
+      break;
+    }
+    case 7:{
+      break;
+    }
+    case 8:{
+      printf("Exit\n");
+      break;
+    }
+    default:{
+      printf("try again!!\n");
+      getchar();
+      break;
     }
     }
   }while(choice!=8);

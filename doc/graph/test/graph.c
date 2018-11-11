@@ -220,3 +220,89 @@ void DFS(Graph graph,int start,int stop,void(*func)(Graph,int)){
   jrb_free_tree(visited);
   free(output);
 }
+
+
+
+
+// For Directed Graph
+int dag_Check,dag_Start;
+
+void dag_visit(Graph graph,int v){
+  if(has_edge(graph,v,dag_Start))
+    dag_Check = 1;
+}
+
+int DAG(Graph graph){
+  JRB node;
+  jrb_traverse(node,graph.vertices){
+    dag_Start = jval_i(node->key);
+    dag_Check = 0;
+    DFS(graph,dag_Start,-1,dag_visit);
+    if(dag_Check == 1) return 0;
+  }
+  return 1;
+}
+
+// Find Shortest Path
+void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int)){
+  JRB visited,pred,tNode;
+  Dllist queue,qNode;
+  int* output = (int*)malloc(100*sizeof(int));
+  int u,v,n,k;
+  
+  visited = make_jrb();
+  pred = make_jrb();
+  queue = new_dllist();
+  dll_append(queue,new_jval_i(start));
+  jrb_insert_int(pred,start,new_jval_i(-1));
+
+  // Start BFS from start to stop
+  while(!dll_empty(queue)){
+    qNode = dll_first(queue);
+    u = jval_i(qNode->val);
+    dll_delete_node(qNode);
+
+    if(jrb_find_int(visited,u) == NULL){
+      jrb_insert_int(visited,u,new_jval_i(1));
+    }
+    
+    if(u == stop) break;
+    
+    n = outdegree(graph,u,output);
+    if(n != 0){
+      for(int i = 0;i < n;i++){
+	v = output[i];
+	if(jrb_find_int(visited,v) == NULL)
+	  if(jrb_find_int(pred,v) == NULL){
+	    jrb_insert_int(pred,v,new_jval_i(u));
+	    dll_append(queue,new_jval_i(v));
+	  }
+      }
+    }
+  }
+  
+  // Finish BFS
+  Dllist path = new_dllist();
+  tNode = jrb_find_int(pred,stop);
+  if(tNode == NULL){
+    printf("No Path!\n");
+    return;
+  }else{
+    dll_prepend(path,new_jval_i(stop));
+    k = jval_i(tNode->val);
+    while(k != start){
+      dll_prepend(path,new_jval_i(k));
+      tNode = jrb_find_int(pred,k);
+      k = jval_i(tNode->val);
+    }
+    dll_prepend(path,new_jval_i(k));
+  }
+  dll_traverse(qNode,path){
+    func(graph,jval_i(qNode->val));
+  }
+  printf("\n");
+  
+  jrb_free_tree(pred);
+  jrb_free_tree(visited);
+  free(output);
+}

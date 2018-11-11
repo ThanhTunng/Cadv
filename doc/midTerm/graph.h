@@ -36,4 +36,6 @@ void drop_graph(Graph graph);
 void BFS(Graph grap, int start,int stop,void(*func)(Graph,int));
 void DFS(Graph grap, int start,int stop,void(*func)(Graph,int));
 
+void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int)); //find the shortest path between 2 nodes
+
 #endif
