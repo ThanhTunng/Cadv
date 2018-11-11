@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../libfdr/dllist.h"
+//#include "../libfdr/dllist.h"
 #include "graph.h"
 
 int countLines(char* file){
@@ -43,12 +43,15 @@ void readData(char* file, Graph g,int n,int *countNode,int *countEdge){
       count++;
     }while((c=fgetc(fr))!='\n');
   }
-
-
+  printf("%d\t",N);
+  for(int i=0;i<N;i++){
+    printf("%3d",arr[i]);
+  }
+  
   int E = 0; //for counting Edges
   
   for(int i=0;i<N;i++){
-    for(int j=i+1;j<N-1;j++){
+    for(int j=i+1;j<N;j++){
       int tmp = arr[j]-arr[i];
       if(tmp == 1 || tmp == 10){
 	add_edge(g,arr[i],arr[j]);
