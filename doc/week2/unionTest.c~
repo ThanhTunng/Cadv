@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef union Jval{
+  int x;
+  float y;
+  double z;
+  char c;
+  char *str;
+  void *v;
+}Jval;
+
+Jval new_jval_int(int a){
+  Jval j;
+  j.x = a;
+  return j; 
+}
+
+Jval new_jval_float(float a){
+  Jval j;
+  j.y = a;
+  return j;
+}
+
+Jval new_jval_double(double a){
+  Jval j;
+  j.z = a;
+  return j;
+}
+
+Jval new_jval_char(char a){
+  Jval j;
+  j.c = a;
+  return j;
+}
+
+Jval new_jval_str(char *a){
+  Jval j;
+  strcpy(j.str,a);
+  return j;
+}
+
+Jval new_jval_void(void *a){
+  Jval j;
+  j.v = *((char*)a);
+  return j;
+}
+
+int main(){
+  
+  
+  return 0;
+}

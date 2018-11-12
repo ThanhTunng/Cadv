@@ -1,0 +1,11 @@
+#include "jrb.h"
+#include "jrb.c"
+
+typedef struct dirGraph{
+  JRB edges;
+  JRB vertices;
+}dirGraph;
+
+int main(){
+  
+}
