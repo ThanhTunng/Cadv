@@ -13,10 +13,10 @@ Graph creat_graph(int i){
   return g;
 }
 
-void add_vertex(Graph graph,int id,int val){
+void add_vertex(Graph graph,int id,char* name){
   JRB node = jrb_find_int(graph.vertices,id);
   if(node == NULL){
-    jrb_insert_int(graph.vertices,id,new_jval_i(val));
+    jrb_insert_int(graph.vertices,id,new_jval_s(name));
   }
 }
 
@@ -56,7 +56,7 @@ void add_edge(Graph graph,int v1,int v2){
 
     node2 = jrb_find_int(tree,v2);
     if(node2 == NULL){
-      jrb_insert_int(tree,v2,new_jval_i(0));
+      jrb_insert_int(tree,v2,new_jval_s("walkable cell"));
     }
 
     //if type = 0 for undirected graph
@@ -71,7 +71,7 @@ void add_edge(Graph graph,int v1,int v2){
 
       node1 = jrb_find_int(tree,v1);
       if(node1 == NULL){
-	jrb_insert_int(tree,v1,new_jval_i(0));
+	jrb_insert_int(tree,v1,new_jval_s("walkable cell"));
     }
 
     }

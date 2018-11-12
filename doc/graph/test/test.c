@@ -73,7 +73,7 @@ void readData(char* file, Graph g,int n,int *countNode,int *countEdge){
 }
 
 int main(){
-  Graph g = creat_graph(0);
+  Graph g = creat_graph(1);
   int *output = (int*)malloc(40*sizeof(int));
 
   int count = countLines("matrix.txt");

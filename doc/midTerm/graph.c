@@ -4,7 +4,7 @@
 #include "./graph.h"
 
 
-Graph creat_graph(int t){
+Graph creat_graph(int i){
   Graph g;
   g.edges = make_jrb();
   g.vertices = make_jrb();
@@ -55,7 +55,7 @@ void add_edge(Graph graph,int v1,int v2){
 
     node2 = jrb_find_int(tree,v2);
     if(node2 == NULL){
-      jrb_insert_int(tree,v2,new_jval_i(1));
+      jrb_insert_int(tree,v2,new_jval_s("walkable cell"));
     }
 
     //if type = 0 for undirected graph
@@ -70,7 +70,7 @@ void add_edge(Graph graph,int v1,int v2){
 
       node1 = jrb_find_int(tree,v1);
       if(node1 == NULL){
-	jrb_insert_int(tree,v1,new_jval_i(1));
+	jrb_insert_int(tree,v1,new_jval_s("walkable cell"));
     }
 
     }
@@ -139,13 +139,13 @@ void list_graph(Graph graph,int* output){
     int v = jval_i(node->key);
     name = jrb_find_int(graph.vertices,v);
     
-    printf("Vertex %s : ",jval_s(name->val));
+    printf("Vertex %d : ",jval_i(name->key));
     int n = outdegree(graph,v,output);
     if(n > 0){
       for(int i = 0;i<n;i++){
 	name = jrb_find_int(graph.vertices,output[i]);
 	if(name!=NULL)
-	  printf("--> %s ",jval_s(name->val));
+	  printf("--> %d ",jval_i(name->key));
       }
     }
     printf("\n");
@@ -245,6 +245,20 @@ void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int)){
   Dllist queue,qNode;
   int* output = (int*)malloc(100*sizeof(int));
   int u,v,n,k;
+
+  //validate start and stop
+  JRB start_node = jrb_find_int(graph.vertices,start);
+  JRB stop_node = jrb_find_int(graph.vertices,stop);
+
+  if(start_node == NULL){
+    printf("Unavailable treasure cell\n");
+    return;
+  }
+  else if(stop_node == NULL){
+    printf("Unavailable gate\n");
+    return;
+  }
+  
   
   visited = make_jrb();
   pred = make_jrb();

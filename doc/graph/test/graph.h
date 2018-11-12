@@ -14,7 +14,7 @@ typedef struct{
 
 Graph creat_graph(int i);
 
-void add_vertex(Graph graph,int id,int v);
+void add_vertex(Graph graph,int id,char *name);
 
 char *get_vertex(Graph graph,int id);
 
