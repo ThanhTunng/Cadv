@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./graph.h"
+#include "../libfdr/dllist.h"
+#include "graph.h"
 
 
 Graph creat_graph(int i){
@@ -15,7 +16,7 @@ Graph creat_graph(int i){
 void add_vertex(Graph graph,int id,char* name){
   JRB node = jrb_find_int(graph.vertices,id);
   if(node == NULL){
-    jrb_insert_int(graph.vertices,id,new_jval_s(strdup(name)));
+    jrb_insert_int(graph.vertices,id,new_jval_s(name));
   }
 }
 
@@ -30,7 +31,7 @@ char* get_vertex(Graph graph,int id){
   }
 }
 
-void add_edge(Graph graph,int v1,int v2){
+void add_edge(Graph graph,int v1,int v2,double weight){
   JRB node1 = jrb_find_int(graph.vertices,v1);
   JRB node2 = jrb_find_int(graph.vertices,v2);
   if(node1 == NULL && node2 == NULL){
@@ -139,7 +140,7 @@ void list_graph(Graph graph,int* output){
     int v = jval_i(node->key);
     name = jrb_find_int(graph.vertices,v);
     
-    printf("Vertex %d : ",jval_i(name->key));
+    printf("Vertex %d: ",jval_i(name->key));
     int n = outdegree(graph,v,output);
     if(n > 0){
       for(int i = 0;i<n;i++){
@@ -220,6 +221,9 @@ void DFS(Graph graph,int start,int stop,void(*func)(Graph,int)){
   free(output);
 }
 
+
+
+
 // For Directed Graph
 int dag_Check,dag_Start;
 
@@ -240,25 +244,11 @@ int DAG(Graph graph){
 }
 
 // Find Shortest Path
-void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int)){
+void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int,int)){
   JRB visited,pred,tNode;
   Dllist queue,qNode;
   int* output = (int*)malloc(100*sizeof(int));
   int u,v,n,k;
-
-  //validate start and stop
-  JRB start_node = jrb_find_int(graph.vertices,start);
-  JRB stop_node = jrb_find_int(graph.vertices,stop);
-
-  if(start_node == NULL){
-    printf("Unavailable treasure cell\n");
-    return;
-  }
-  else if(stop_node == NULL){
-    printf("Unavailable gate\n");
-    return;
-  }
-  
   
   visited = make_jrb();
   pred = make_jrb();
@@ -308,7 +298,7 @@ void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int)){
     dll_prepend(path,new_jval_i(k));
   }
   dll_traverse(qNode,path){
-    func(graph,jval_i(qNode->val));
+    func(graph,jval_i(qNode->val),path);
   }
   printf("\n");
   
