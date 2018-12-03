@@ -123,6 +123,34 @@ int outdegree(Graph graph,int v,int* output){
   }
 }
 
+JRB sp_distance, sp_parent, sp_visited;
+
+void get_closet_vertex(Dllist pq, int* closest_vertex, double* min_length){
+  double tmp;
+  Dllist ptr, node = NULL;
+  int u;
+  *min_length = INFINITE_VALUE;
+  dll_traverse(ptr,pq){
+    u = jval_i(ptr->val);
+
+    tmp = jval_d(jrb_find_int(sp_distance, u)->val);
+    if(*min_length > tmp){
+      *min_length = tmp;
+      node = ptr;
+    }
+  }
+  *closet_vertex = jval_i(node->val);
+}
+
+int pq_search(Dllist pq, int v){
+  Dllist ptr;
+  dll_traverse(ptr,pq){
+    if(jval_i(ptr->val)==v)
+      return 1;
+  }
+  return 0;
+}
+
 void drop_graph(Graph graph){
   JRB node;
   jrb_traverse(node,graph.edges)
@@ -153,7 +181,7 @@ void list_graph(Graph graph,int* output){
   }
 }
 
-void BFS(Graph graph,int start,int stop,void(*func)(Graph,int)){
+void BFS(Graph graph,int start,int stop,void(*func)(int)){
   JRB visited;
   Dllist queue,node;
   int u,v,i,n;
@@ -186,7 +214,7 @@ void BFS(Graph graph,int start,int stop,void(*func)(Graph,int)){
   free(output);
 }
 
-void DFS(Graph graph,int start,int stop,void(*func)(Graph,int)){
+void DFS(Graph graph,int start,int stop,void(*func)(int)){
   JRB visited;
   Dllist stack,node;
   int u,n,i,v;
@@ -242,7 +270,7 @@ int DAG(Graph graph){
   }
   return 1;
 }
-
+/*
 // Find Shortest Path
 void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int,int)){
   JRB visited,pred,tNode;
@@ -305,4 +333,15 @@ void shortest_path(Graph graph,int start,int stop,void(*func)(Graph,int,int)){
   jrb_free_tree(pred);
   jrb_free_tree(visited);
   free(output);
+}
+*/
+double shortest_path(Graph g,int s,int t,int *path,int *length){
+  int i, n, output[100];
+  int closet_vertex;
+  double min_length, w;
+
+  JRB node;
+
+  sp_dis
+  
 }
