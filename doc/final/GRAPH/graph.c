@@ -19,7 +19,7 @@ void add_vertex(Graph graph,int id,char* name){
   }
 }
 
-char* get_vertex(Graph graph,int id){
+/*char* get_vertex(Graph graph,int id){
   JRB node = jrb_find_int(graph.vertices,id);
   if(node == NULL){
     printf("No vertex with id %d\n",id);
@@ -28,7 +28,33 @@ char* get_vertex(Graph graph,int id){
     char* name = strdup(jval_s(node->val));
     return name;
   }
+  }*/
+
+int get_vertex_id(Graph graph,char* name){
+	JRB node;
+	int check = 0;
+	jrb_traverse(node,graph.vertices){
+		char* getName = strdup(jval_s(node->val)); 
+		if(strcmp(name,getName) == 0) {
+			check = 1;
+			break;
+		}
+	}
+	if(check == 1)
+		return jval_i(node->key);
+	else return -1;
 }
+
+char* get_vertex_name(Graph graph,int id){
+  JRB node = jrb_find_int(graph.vertices,id);
+  if(node == NULL){
+    return NULL; //if there doesnt exist the node with key id --> return NULL
+  }else{
+    char* name = strdup(jval_s(node->val));
+    return name;
+  }
+}
+
 
 void add_edge(Graph graph,int v1,int v2){
   JRB node1 = jrb_find_int(graph.vertices,v1);
