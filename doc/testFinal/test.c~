@@ -50,6 +50,9 @@ int main()
     printf("\nTotal weight: %g\n", weight);
   }
   // result 1   6   3   5   8 (50)
+  printf("weighted: %.1lf\n",get_edge_weight(g,4,3));
+  printf("weighted: %g\n",get_edge_weight(g,4,3));
+
   list_graph(g,output);
   printf("%s\n", "BFS: ");
   BFS(g,1,-1,print_vertex);

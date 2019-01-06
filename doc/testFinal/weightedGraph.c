@@ -40,7 +40,7 @@ void add_edge(Graph graph,int v1,int v2,double weight){
     printf("Vertex %d doesn't exist!\n",v1);
     return;
   }else if(node2 == NULL){
-    printf("Vertex %d doesn't exist!\n",v1);
+    printf("Vertex %d doesn't exist!\n",v2);
     return;
   }else if(node1 == NULL && node2 == NULL){
     printf("Vertex %d and %d don't exist!\n",v1,v2);
@@ -84,9 +84,8 @@ int has_edge(Graph graph,int v1,int v2){
 double get_edge_weight(Graph graph,int v1,int v2){
   JRB node = jrb_find_int(graph.vertices,v1);
   if(node == NULL) return INFINITE_VALUE;//if v1 doesnt exist
-  else{
-    if(v2 == v1) return 0;
-  }
+  if(v2 == v1) return 0;
+ 
   JRB node1 = jrb_find_int(graph.edges,v1);
   if(node1 == NULL)
     return INFINITE_VALUE;//if v1 has no outdegree
@@ -145,7 +144,7 @@ void list_graph(Graph graph,int* output){
   jrb_traverse(node,graph.vertices){
     int v = jval_i(node->key);
     name = jrb_find_int(graph.vertices,v);
-    printf("Vertex %s : ",jval_s(name->val));
+    printf(" %s : %d ",jval_s(name->val),v);
     int n = outdegree(graph,v,output);
     if(n != 0){
       for(int i = 0;i<n;i++){
@@ -344,4 +343,3 @@ void DFS(Graph graph,int start,int stop,void(*func)(Graph,int)){
   free_dllist(stack);
   free(output);
 }
-

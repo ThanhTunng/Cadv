@@ -10,7 +10,7 @@ void print_vertex(Graph graph,int u){
 
 int main()
 {
-  Graph g = creat_graph(1);
+  Graph g = creat_graph(0);
   int* output = (int*)malloc(100*sizeof(int));
   //add vertices
   add_vertex(g,1,"1");
@@ -38,8 +38,8 @@ int main()
   add_edge(g,3,8,19);
   add_edge(g,3,5,2);
   int s, t, length, path[1000];
-  s = 1;
-  t = 8;
+  s = 8;
+  t = 1;
   length = 0;
   double weight = shortest_path(g, s, t, path, &length);
   if (weight == INFINITE_VALUE)
@@ -50,6 +50,9 @@ int main()
     printf("\nTotal weight: %g\n", weight);
   }
   // result 1   6   3   5   8 (50)
+  printf("weighted: %.1lf\n",get_edge_weight(g,4,3));
+  printf("weighted: %g\n",get_edge_weight(g,4,3));
+
   list_graph(g,output);
   printf("%s\n", "BFS: ");
   BFS(g,1,-1,print_vertex);

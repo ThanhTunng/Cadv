@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <weightedGraph.h>
+
+int countLines(char* file){
+  FILE *fr = fopen(file,"r");
+  if(fr==NULL){
+    printf("cannot open file %s\n",file);
+    return 0;
+  }
+  int count =0;
+  char c;
+  while((c=fgetc(fr))!=EOF){
+    if(c=='\n') count++;
+  }
+  fclose(fr);
+  return count;
+}
+
+int readGood(char* file,Graph good){
+  FILE *fr = fopen(file,"r");
+  if(f==NULL){
+    printf("cannot open file %s!!\n",file);
+    return 0;
+  }
+  int m;
+  fscanf(fr,"d",&m);
+  char *str; int id;
+  for(int i=1;i<=3;i++){
+    fscanf(fr,"%s %d",str,&id);
+    add_vertex(good,id,str);
+  }
+  return m;
+}
+
+int readStorage(char *file,Graph storage,int m){
+  FILE *fr = fopen(file,"r");
+  if(f==NULL){
+    printf("cannot open file %s!!\n",file);
+    return 0;
+  }
+
+  int n;
+  fscanf(fr,"d",&n);
+
+  //read (m+1)*n
+  for(int i=1;i<=n;i++){
+    char *str; int idS=0;
+
+    fscanf(fr,"%s %d",str,&idS); //scan storage
+    add_vertex(storage,idS,str); //add new storage
+
+    JRB tree =make_jrb();
+    int idG=0; int num=0; 
+
+    for(int k=1;k<m;k++){
+      fscanf(fr,"%d %d",&idG,&num); //scan id and its num
+      JRB check;
+      check = jrb_find_int(tree,idG);
+      if(check==NULL)
+	jrb_insert_int(tree,idG,new_jval_i(num)); //add id of goods and its number
+    }
+    
+    jrb_insert_int(storage.edges,idS,new_jval_v(tree)); //add list of good into each storage
+    
+  }
+  //finish read (m+1)*n
+
+  //read edges
+  int link = 0;
+  fscanf(fr,"d",&link);
+  for(int i=1;i<=k;i++){
+    int idS1 = 0; int idS2 = 0; double weight = 0;
+    fscanf(fr,"%d %d %lf",&idS1,&idS2,&weight);
+    add_edge(storage,idS1,idS2,weight);
+  }
+  return n;
+}
+
+int main(char* argv[]){
+  Graph storage = creat_graph(0); Graph good = creat_graph(0);
+  if(strcmp(argv[1],"-t")==0){
+    printf("\nC-advaned\nHK20182");
+  }
+  return 0;
+}

@@ -10,7 +10,7 @@ void print_vertex(Graph graph,int u){
 
 int main()
 {
-  Graph g = creat_graph();
+  Graph g = creat_graph(0);
   int* output = (int*)malloc(100*sizeof(int));
   //add vertices
   add_vertex(g,1,"1");
@@ -38,8 +38,8 @@ int main()
   add_edge(g,3,8,19);
   add_edge(g,3,5,2);
   int s, t, length, path[1000];
-  s = 1;
-  t = 8;
+  s = 8;
+  t = 1;
   length = 0;
   double weight = shortest_path(g, s, t, path, &length);
   if (weight == INFINITE_VALUE)
